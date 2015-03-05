@@ -1,4 +1,3 @@
-
 Twixt is an alternative binding framework for Java Play apps.
 
 Play documentation recommends making forms from model objects.  The validation annotations on the model are used
@@ -57,7 +56,7 @@ On post-back, use a TwixtBinder to bind the HTTP request into your TwixtForm:
 		 }
 	  }
 
-# Automatic CRUD Controllers with play-crud
+## Automatic CRUD Controllers with play-crud
 Twixt integrates with play-crud (https://github.com/hakandilek/play2-crud) to provide automatic CRUD.  
 
 The simplest is to create a controller based
@@ -74,36 +73,3 @@ you must define the view .scala.html files.
    
    
    
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-
-Twixt is a binding library for Play Framework Java 2.3.x applications.
-
-A "twixt" is an object that sits between a form view and the model.  Instead of building a form from a model object, use a twixt.
-It allows the form to present data differently than the model.  The form can:
-
- * have a subset of model fields
- * split model fields into multiple UI fields, such as a phone number into an Area Code textbox and a Phone Number text box.
- * have fields from multiple models on a single form
- * have different validation rules for the same field when it appears on different forms
-
-A twixt form consists of value objects (based on org.mef.twixt.Value).  Twixt provides these basic value types
-
- * StringValue
- * IntegerValue, LongValue, and DoubleValue
- * BooleanValue
- * DateValue
- * ListValue, SelectValue, and LongSelectValue
-
-Values have plug-in validators which are a code-based alternative to the annotation-based approach to validation provided by Play.
- 
-Twixt is an extension of play-crud, and provides a controller (DyanamicTwixtController) that dynamically creates form views based on their
-data values.
