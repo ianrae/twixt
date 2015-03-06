@@ -16,7 +16,7 @@ A twixt is an object that sits between the model and the view.  The twixt fields
       Form<UserTwixt> form = Form.form(UserTwixt.class).fill(twixt);
       //..render the form
 
-copyFromModel copies fields automatically, or can be overridden to do custom copying.
+copyFromModel copies fields automatically, or can be overridden to do custom copying. 
 
 On post-back, use a TwixtBinder to bind the HTTP request into your TwixtForm:
 
