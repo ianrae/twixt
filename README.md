@@ -64,16 +64,15 @@ Use twixt objects in your controllers.  The view renders the value field in the 
 For example, if the twixt form had a StringValue field named <b>name</b>, render
 it like this:
 
-    @inputText(sampleForm("name"), args = '_label -> "name")
+    @inputText(sampleForm("name"))
 
 ## Automatic CRUD Controllers with play-crud
 Twixt integrates with play-crud (https://github.com/hakandilek/play2-crud) to provide automatic CRUD.  
 This can be done in two ways.
 
 ### Dynamic CRUD 
-The simplest approach is to create a controller based
-on DynamicTwixtController, telling it which model and twixt to use.  
-This controller standard CRUD actions (index, newForm, create, edit, update, show, and index), and views for each.
+The simplest approach is to create a controller based on DynamicTwixtController, telling it which model and twixt to use.  This controller 
+standard CRUD actions (index, newForm, create, edit, update, show, and index), and views for each.
 The model must derive from BasicModel.
 
 ### Custom Controller and View
