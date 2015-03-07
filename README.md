@@ -1,7 +1,7 @@
 Twixt is an alternative binding framework for Java Play apps.
 
-Play documentation recommends making forms from model objects.  The validation annotations on the model are used
-during binding.  This works well in simple CRUD scenarios, but has limitations in larger applications, such as:
+Play documentation recommends making forms from model objects.  The model's validation annotations are used
+during binding.  This works well in simple CRUD scenarios, but has limitations in larger applications:
 
    * the form may only have a subset of model fields.  Binding may fail due to missing @Required fields.
    * the same field may be used on multiple forms with different validation requirements.
