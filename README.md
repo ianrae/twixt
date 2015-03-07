@@ -7,8 +7,8 @@ during binding.  This works well in simple CRUD scenarios, but has limitations i
    * the same field may be used on multiple forms with different validation requirements.
    * a form may contain fields from multiple models.
 
-A twixt is an object that sits between the model and the view.  The twixt fields have their own validation and formatting, separate
- from the model.  A typical edit action would get a model from the database, load it into a twixt, and render a form of the twixt.
+A twixt is an object that sits between the model and the view.  Twixt fields have their own validation and formatting, separate
+ from the model.  A typical edit action would get a model from the database, load it into a twixt, and render the twixt in a form.
 
       User user = User.find().getById(id); //get model
       UserTwixt twixt = new UserTwixt();   //create twixt
@@ -42,8 +42,7 @@ copy the validated data into the model.
 			public void validate(ValContext vtx, Value val) {
 			 Pattern p = Pattern.compile("^(?=.{7,32}$)(\\(?\\+?[0-9]*\\)?)?[0-9_\\- \\(\\)]*((\\s?x\\s?|ext\\s?|extension\\s?)\\d{1,5}){0,1}$");  
 			 String phone = val.toString();
-			 Matcher m = p.matcher(phone);
-			 boolean matchFound = m.matches();
+			 boolean matchFound = p.matcher(phone).matches();
 			 if (! matchFound) {
 				vtx.addError("Not a valid phone number.");
 			 }
