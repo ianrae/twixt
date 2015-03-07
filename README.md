@@ -11,14 +11,14 @@ A twixt is an object that sits between the model and the view.  The twixt fields
  from the model.  A typical edit action would get a model from the database, load it into a twixt, and render a form of the twixt.
 
       User user = User.find().getById(id); //get model
-      UserTwixt twixt = new UserTwixt();
+      UserTwixt twixt = new UserTwixt();   //create twixt
       twixt.copyFromModel(user);           //load twixt
       Form<UserTwixt> form = Form.form(UserTwixt.class).fill(twixt);
       //..render the form
 
 copyFromModel copies fields automatically, or can be overridden to do custom copying. 
 
-On post-back, use a TwixtBinder to bind the HTTP request into your TwixtForm. copyToModel will
+On post-back, use TwixtBinder to bind the HTTP request into your TwixtForm. copyToModel will
 copy the validated data into the model.
 
       TwixtBinder<UsreTwixt> binder = new TwixtBinder();
@@ -59,18 +59,25 @@ copy the validated data into the model.
 	  
 Validation is code-based, not annotation-based.	  
 
+## Controllers and Views
+Use twixt objects in your controllers.  The view renders the value field in the normal way.
+For example, if the twixt form had a StringValue field named <b>a</b>, the edit form can render
+it like this:
+
+    @inputText(sampleForm("name"), args = '_label -> "name")
+
 ## Automatic CRUD Controllers with play-crud
 Twixt integrates with play-crud (https://github.com/hakandilek/play2-crud) to provide automatic CRUD.  
 This can be done in two ways
 
 ### Dynamic CRUD 
 The simplest approach is to create a controller based
-on DynamicTwixtController. It will define the standard CRUD actions (index, newForm, create, edit, update, show, and index actions).  It will also render
-views for each automatically.  You don't need to implement actions or views; play2-crud does this automatically.
+on DynamicTwixtController. It provides standard CRUD actions (index, newForm, create, edit, update, show, and index), and views for each.
+The model must derive from BasicModel.
 
 ### Custom Controller and View
-If you want to define your own views, create a controller class based on TwixtController. It defines the same CRUD actions as DynamicTwixtController but
-you must define the view .scala.html files for each.
+To extend or customize, create a, create a controller class based on TwixtController. It defines the same CRUD actions as DynamicTwixtController.
+You must define the views for each.
 
 
    
