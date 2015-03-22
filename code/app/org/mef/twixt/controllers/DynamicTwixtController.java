@@ -5,25 +5,34 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeMap;
 
-
-
-import org.mef.twixt.*;
+import org.mef.twixt.BooleanValue;
+import org.mef.twixt.DateValue;
+import org.mef.twixt.FileValue;
+import org.mef.twixt.IntegerValue;
+import org.mef.twixt.LongSelectValue;
+import org.mef.twixt.SelectValue;
+import org.mef.twixt.Value;
+import org.mef.twixt.ValueContainer;
 import org.mef.twixt.widget.MySelectWidget;
 import org.springframework.util.ReflectionUtils;
 
+import com.avaje.ebean.Page;
+
 import play.Logger;
 import play.data.Form;
-import play.mvc.Call;
 import play.twirl.api.Content;
+import play.utils.crud.CRUDManager;
+import play.utils.crud.Parameters;
+import play.utils.crud.TemplateController.MethodNotFoundException;
 import play.utils.dao.BasicModel;
 import play.utils.dao.DAO;
 import play.utils.meta.FieldMetadata;
+import play.utils.meta.ModelMetadata;
 import play.utils.meta.form.CheckboxWidget;
 import play.utils.meta.form.DateWidget;
 import play.utils.meta.form.FileWidget;
 import play.utils.meta.form.FormFieldWidget;
 import play.utils.meta.form.NumberWidget;
-import play.utils.meta.form.SelectWidget;
 import play.utils.meta.form.TextWidget;
 
 public abstract class DynamicTwixtController<K,  M extends BasicModel<K>,T extends ValueContainer> extends TwixtController<K, M,T> implements ReflectionUtils.FieldCallback, ReflectionUtils.FieldFilter
@@ -76,6 +85,8 @@ public abstract class DynamicTwixtController<K,  M extends BasicModel<K>,T exten
 
 	List<FieldMetadata> metaL = new ArrayList<FieldMetadata>();
 	private T preRenderTwixt;
+	
+	protected static final String NO_TEMPLATE = "zzzzz";
 
 	public DynamicTwixtController(DAO<K, M> dao, Class<K> keyClass, Class<M> modelClass, Class<T>twixtClass, int pageSize, String orderBy) 
 	{
@@ -162,7 +173,64 @@ public abstract class DynamicTwixtController<K,  M extends BasicModel<K>,T exten
 
 		return render(templateForForm(), with(getKeyClass(), key).and(Form.class, form).and(metaL.getClass(), metaL));
 	}	
+	
+
+	@Override
+	protected Content renderList(Page p) {
+		try {
+			return super.renderList(p);
+		} catch (TemplateNotFoundException e) {
+			// use dynamic template
+			ModelMetadata model = this.getModelMetadata();
+			
+			if (isLogDebug())
+			{
+				log("Rendering dynamic xLIST template for model : " + model);
+			}
+			return play.utils.crud.views.html.list.render(model, model.getFields().values(), p);
+		}
+	}
+	@Override
+	protected Content renderShow(M modelObject) {
+		try {
+			return super.renderShow(modelObject);
+		} catch (TemplateNotFoundException e) {
+			// use dynamic template
+			ModelMetadata model = this.getModelMetadata();
+			if (isLogDebug())
+				log("Rendering dynamic SHOW template for model : " + model);
+			return play.utils.crud.views.html.show.render(model, model.getFields().values(), modelObject);
+		}
+	}
+	private ModelMetadata getModelMetadata()
+	{
+		CRUDManager m = CRUDManager.getInstance();
+		ModelMetadata model = m.getMetadata(this.getModelClass());
+		return model;
+	}
+	
+	@Override
+	protected String templateForList() {
+		return  NO_TEMPLATE; //use play2-crud's pre-defined one
+	}
+	@Override
+	protected String templateForShow() {
+		return  NO_TEMPLATE; //use play2-crud's pre-defined one
+	}
+	
 
 
+	@Override
+	protected Content render(String template, Parameters params) {
+		Content content;
+		try {
+			content = call(templatePackageName + template, "render", params);
+		} catch (ClassNotFoundException | MethodNotFoundException e) {
+			if (isLogDebug())
+				log("template not found : '" + template + "'");
+			throw new TemplateNotFoundException();
+		}
+		return content;
+	}	
 
 }

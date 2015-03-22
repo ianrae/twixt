@@ -37,6 +37,15 @@ public abstract class TwixtController<K,  M extends BasicModel<K>,T extends Valu
 		return render(templateForForm(), with(getKeyClass(), key).and(Form.class, form));
 	}
 	
+	protected boolean isLogDebug()
+	{
+		return xlog.isDebugEnabled();
+	}
+	protected void log(String s)
+	{
+		xlog.debug(s);
+	}
+	
 	
 	public Result newForm() {
 		if (xlog.isDebugEnabled())
@@ -179,7 +188,7 @@ public abstract class TwixtController<K,  M extends BasicModel<K>,T extends Valu
 	
 	@Override
 	protected String templateForList() {
-		return  genTemplate("List");
+		return  genTemplate("zList");
 	}
 
 	@Override
