@@ -147,9 +147,10 @@ public abstract class DynamicTwixtController<K,  M extends BasicModel<K>,T exten
 
 	private void forceSetWidget(FieldMetadata meta2, FormFieldWidget w) throws Exception 
 	{
-		Field f = ReflectionUtils.findField(meta2.getClass(), "widget");
-		f.setAccessible(true); //force!
-		f.set(meta2, w);
+//		Field f = ReflectionUtils.findField(meta2.getClass(), "widget");
+//		f.setAccessible(true); //force!
+//		f.set(meta2, w);
+		meta2.setWidget(w);
 	}
 
 	@Override

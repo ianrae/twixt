@@ -12,9 +12,9 @@ libraryDependencies ++= Seq(
 
 lazy val root = (project in file(".")).enablePlugins(PlayJava)
 
-resolvers += "release repository" at  "http://hakandilek.github.com/maven-repo/releases/"
-
-resolvers += "snapshot repository" at "http://hakandilek.github.com/maven-repo/snapshots/"
+//resolvers += "release repository" at  "http://hakandilek.github.com/maven-repo/releases/"
+//
+//resolvers += "snapshot repository" at "http://hakandilek.github.com/maven-repo/snapshots/"
 
 
 
