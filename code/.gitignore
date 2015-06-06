@@ -17,3 +17,4 @@ dist
 /.settings
 /project/*-shim.sbt
 /bin2/
+/bin/

@@ -9,6 +9,8 @@ import play.i18n.Messages;
 
 public class ValidationErrors
 {
+	public static boolean inUnitTest = false; //only set true for unit tests where a FakeApplication is not being used
+	
     public Map<String,List<ValidationErrorSpec>> map;
     String itemName;
     
@@ -38,7 +40,13 @@ public class ValidationErrors
     
 	private String getMessageFromConf(String message, Object... arguments) 
 	{
-		if (Messages.isDefined(message))
+		boolean flag = false;
+		if (! inUnitTest)
+		{
+			flag = Messages.isDefined(message);
+		}
+		
+		if (flag)
 		{
 			String s = Messages.get(message, arguments);
 			return s;

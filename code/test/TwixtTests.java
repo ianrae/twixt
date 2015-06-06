@@ -9,6 +9,8 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.TreeMap;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.mef.twixt.BooleanValue;
 import org.mef.twixt.Converter;
@@ -170,5 +172,18 @@ public class TwixtTests extends BaseTest
 		v.set(4L);
 		v.validate(vtx);
 		assertEquals(false, vtx.succeeded());
+	}
+	
+	@Before
+	public void init()
+	{
+		System.out.println("bef");
+		ValidationErrors.inUnitTest = true;
+	}
+	
+	@After
+	public void shutdown()
+	{
+		ValidationErrors.inUnitTest = false;
 	}
 }

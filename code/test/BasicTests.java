@@ -1,5 +1,7 @@
 import static org.junit.Assert.*;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.mef.twixt.StringValue;
 import org.mef.twixt.Value;
@@ -52,6 +54,19 @@ public class BasicTests
 		assertEquals("555-66", ph.get());
 		ph.validate(vtx);
 		assertEquals(false, vtx.succeeded());
+	}
+	
+	@Before
+	public void init()
+	{
+		System.out.println("bef");
+		ValidationErrors.inUnitTest = true;
+	}
+	
+	@After
+	public void shutdown()
+	{
+		ValidationErrors.inUnitTest = false;
 	}
 
 }
