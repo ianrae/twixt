@@ -6,9 +6,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.mef.twixt.*;
-import org.mef.twixt.validate.*;
+import org.mef.twixt.Value;
+import org.mef.twixt.ValueContainer;
+import org.mef.twixt.validate.ValContext;
+import org.mef.twixt.validate.ValidationErrorSpec;
+import org.reflections.ReflectionUtils;
 import org.reflections.Reflections;
+
+import static org.reflections.ReflectionUtils.*;
 
 public class ReflectionBinder
 {
@@ -59,7 +64,8 @@ public class ReflectionBinder
 	boolean bindImpl(ValueContainer input, Map<String,String> map) throws Exception
 	{
 		boolean ok = true;
-		Set<Field> list = Reflections.getAllFields(input.getClass(), Reflections.withModifier(Modifier.PUBLIC));
+		
+		Set<Field> list = ReflectionUtils.getAllFields(input.getClass(), ReflectionUtils.withModifier(Modifier.PUBLIC));
 		for(Field fld : list)
 		{
 			String fieldName = fld.getName();

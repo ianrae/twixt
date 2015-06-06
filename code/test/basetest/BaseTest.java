@@ -1,10 +1,8 @@
-package base;
+package basetest;
 
-import static org.junit.Assert.*;
 
 import java.io.File;
 
-import org.junit.Test;
 
 
 

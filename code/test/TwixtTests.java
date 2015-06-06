@@ -23,7 +23,8 @@ import org.mef.twixt.StringValue;
 import org.mef.twixt.Value;
 import org.mef.twixt.validate.ValContext;
 import org.mef.twixt.validate.ValidationErrors;
-import base.BaseTest;
+
+import basetest.BaseTest;
 
 
 public class TwixtTests extends BaseTest

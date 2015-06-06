@@ -1,4 +1,5 @@
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.util.Map;
 import java.util.TreeMap;
@@ -7,12 +8,12 @@ import org.junit.Test;
 import org.mef.twixt.StringValue;
 import org.mef.twixt.Value;
 import org.mef.twixt.binder.MockTwixtBinder;
-import org.mef.twixt.binder.TwixtBinder;
 import org.mef.twixt.binder.TwixtForm;
 import org.mef.twixt.validate.ValContext;
 import org.mef.twixt.validate.Validator;
 
-import base.BaseTest;
+import basetest.BaseTest;
+
 
 
 public class TwixtFormTests extends BaseTest
