@@ -1,10 +1,16 @@
 package org.mef.twixt;
 
+import org.mef.twixt.validate.Validator;
+
 public class StringValue extends Value
 {
 	public StringValue()
 	{
 		this("");
+	}
+	public StringValue(Validator validator)
+	{
+		super("", validator);
 	}
 	public StringValue(String n)
 	{

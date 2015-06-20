@@ -1,10 +1,16 @@
 package org.mef.twixt;
 
+import org.mef.twixt.validate.Validator;
+
 public class IntegerValue extends Value
 {
 	public IntegerValue()
 	{
 		this(0);
+	}
+	public IntegerValue(Validator validator)
+	{
+		super(0, validator);
 	}
 	public IntegerValue(Integer n)
 	{

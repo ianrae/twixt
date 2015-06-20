@@ -34,6 +34,10 @@ public class LongSelectValue extends LongValue
 	{
 		this(0L, null);
 	}
+	public LongSelectValue(Validator validator)
+	{
+		super(validator);
+	}
 	public LongSelectValue(Long id) 
 	{
 		this(id, null);

@@ -1,10 +1,16 @@
 package org.mef.twixt;
 
+import org.mef.twixt.validate.Validator;
+
 public class LongValue extends Value
 {
 	public LongValue()
 	{
 		this(0L);
+	}
+	public LongValue(Validator validator)
+	{
+		super(0L, validator);
 	}
 	public LongValue(Long n)
 	{

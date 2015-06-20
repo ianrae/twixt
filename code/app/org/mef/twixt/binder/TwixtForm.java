@@ -6,6 +6,8 @@ import org.mef.twixt.*;
 import org.mef.twixt.validate.ValContext;
 import org.springframework.util.ReflectionUtils;
 
+import play.data.Form;
+
 public abstract class TwixtForm implements ValueContainer
 {
 	private class Facade implements  FormCopier.FieldCopier, ReflectionUtils.FieldCallback
@@ -123,4 +125,13 @@ public abstract class TwixtForm implements ValueContainer
 		ReflectionUtils.doWithFields(this.getClass(), valfacade, ReflectionUtils.COPYABLE_FIELDS);
 	}
 	
+	
+	@SuppressWarnings("unchecked")
+	public <T> Form<T> createFilledForm(Object entity)
+	{
+    	this.copyFrom(entity);
+    	Form<T> frm = (Form<T>) Form.form(this.getClass());
+    	frm = frm.fill((T) this);
+		return frm;
+	}	
 }

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.mef.twixt.validate.ValContext;
+import org.mef.twixt.validate.Validator;
 
 
 public class ListValue extends Value
@@ -11,6 +12,10 @@ public class ListValue extends Value
 	public ListValue()
 	{
 		this(new ArrayList<Value>());
+	}
+	public ListValue(Validator validator)
+	{
+		super(new ArrayList<Value>(), validator);
 	}
 	public ListValue(List<Value> L)
 	{

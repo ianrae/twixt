@@ -33,6 +33,10 @@ public class SelectValue extends StringValue
 	{
 		this("", null);
 	}
+	public SelectValue(Validator validator)
+	{
+		super(validator);
+	}
 	public SelectValue(String id)
 	{
 		this(id, null);

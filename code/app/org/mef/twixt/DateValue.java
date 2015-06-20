@@ -3,11 +3,17 @@ package org.mef.twixt;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import org.mef.twixt.validate.Validator;
+
 public class DateValue extends Value
 {
 	public DateValue()
 	{
 		this(new Date());
+	}
+	public DateValue(Validator validator)
+	{
+		super(new Date(), validator);
 	}
 	public DateValue(Date n)
 	{

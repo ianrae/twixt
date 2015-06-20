@@ -16,6 +16,11 @@ public abstract class Value
 	{
 		this.obj = obj;
 	}
+	public Value(Object obj, Validator validator)
+	{
+		this.obj = obj;
+		this.validator = validator;
+	}
 
 	//??deep copy needed!!
 
