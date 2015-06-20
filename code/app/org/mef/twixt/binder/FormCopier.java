@@ -2,8 +2,11 @@ package org.mef.twixt.binder;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
+import org.mef.twixt.StringValue;
 import org.mef.twixt.Value;
 import org.springframework.util.ReflectionUtils;
 
@@ -83,7 +86,7 @@ public class FormCopier implements ReflectionUtils.FieldCallback
 				if (meth != null)
 				{
 					Object src = meth.invoke(modelToCopyFrom);
-
+					src = adjustSrcFrom(src);
 					fnName = "setUnderlyingValue";
 					meth = ReflectionUtils.findMethod(clazz, fnName, Object.class);
 
@@ -96,6 +99,23 @@ public class FormCopier implements ReflectionUtils.FieldCallback
 			}
 		}
 	}
+	
+	//messy. convert list of String to list of Value
+	private Object adjustSrcFrom(Object src) 
+	{
+		if (src.getClass().equals(ArrayList.class))
+		{
+			ArrayList L = (ArrayList) src;
+			ArrayList<StringValue> newL = new ArrayList<StringValue>();
+			for(Object obj : L)
+			{
+				newL.add(new StringValue(obj.toString()));
+			}
+			return newL;
+		}
+		return src;
+	}
+	
 
 	public void copyFieldToModel(Field field)
 	{
@@ -118,7 +138,7 @@ public class FormCopier implements ReflectionUtils.FieldCallback
 				if (meth != null)
 				{
 					Object src = meth.invoke(valueObj);
-
+					src = adjustSrcTo(src);
 					fnName = "set" + uppify(field.getName());
 					meth = findMatchingMethod(field, src);
 					if (meth != null)
@@ -135,6 +155,25 @@ public class FormCopier implements ReflectionUtils.FieldCallback
 		}
 	}
 	
+	//messy. convert list of Value to list of String
+	private Object adjustSrcTo(Object src) 
+	{
+		if (src.getClass().equals(ArrayList.class))
+		{
+			ArrayList L = (ArrayList) src;
+			ArrayList<String> newL = new ArrayList<String>();
+			for(Object obj : L)
+			{
+				if (obj instanceof Value)
+				{
+					newL.add(obj.toString());
+				}
+			}
+			return newL;
+		}
+		return src;
+	}
+
 	private Method findMatchingMethod(Field field, Object src)
 	{
 		String fnName = "set" + uppify(field.getName());
@@ -192,6 +231,14 @@ public class FormCopier implements ReflectionUtils.FieldCallback
 		else if (src.getClass().equals(String.class))
 		{
 			meth = ReflectionUtils.findMethod(modelToCopyTo.getClass(), fnName, String.class);
+			if (meth != null)
+			{
+				return meth;
+			}
+		}
+		else if (src.getClass().equals(ArrayList.class))
+		{
+			meth = ReflectionUtils.findMethod(modelToCopyTo.getClass(), fnName, List.class);
 			if (meth != null)
 			{
 				return meth;

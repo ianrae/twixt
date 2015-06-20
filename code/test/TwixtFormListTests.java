@@ -1,5 +1,6 @@
 import static org.junit.Assert.*;
 
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -18,6 +19,25 @@ import basetest.BaseTest;
 
 public class TwixtFormListTests extends BaseTest
 {
+	public static class Chevy
+	{
+		private String a;
+		private List<String> emails;
+		public String getA() {
+			return a;
+		}
+		public void setA(String a) {
+			this.a = a;
+		}
+		public List<String> getEmails() {
+			return emails;
+		}
+		public void setEmails(List<String> emails) {
+			this.emails = emails;
+		}
+		
+	}
+	
 	public static class XCarTwixt extends TwixtForm
 	{
 		public StringValue a;
@@ -63,6 +83,21 @@ public class TwixtFormListTests extends BaseTest
 		assertEquals(2, twixt.emails.size());
 		assertEquals("ABC", twixt.emails.getIth(0).toString());
 		assertEquals("DEF", twixt.emails.getIth(1).toString());
+		
+		Chevy chevy = new Chevy();
+		twixt.copyTo(chevy);
+		assertEquals("244-5566", chevy.getA());
+		assertEquals(2, chevy.getEmails().size());
+		assertEquals("ABC", chevy.getEmails().get(0));
+		assertEquals("DEF", chevy.getEmails().get(1));
+		
+		XCarTwixt twixt2 = new XCarTwixt();
+		twixt2.copyFrom(chevy);
+		assertEquals("244-5566", twixt2.a.get());
+		assertEquals(2, twixt2.emails.size());
+		assertEquals("ABC", twixt2.emails.getIth(0).toString());
+		assertEquals("DEF", twixt2.emails.getIth(1).toString());
+		
 	}
 
 	@Test

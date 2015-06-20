@@ -18,6 +18,23 @@ import basetest.BaseTest;
 
 public class TwixtFormTests extends BaseTest
 {
+	public static class Ford
+	{
+		private String a;
+		private String b;
+		public String getA() {
+			return a;
+		}
+		public void setA(String a) {
+			this.a = a;
+		}
+		public String getB() {
+			return b;
+		}
+		public void setB(String b) {
+			this.b = b;
+		}
+	}
 	public static class CarTwixt extends TwixtForm
 	{
 		public StringValue a;
@@ -43,7 +60,6 @@ public class TwixtFormTests extends BaseTest
 					valctx.addError("sdfdfs");
 				}
 			}
-			
 		}
 	}
 
@@ -61,6 +77,17 @@ public class TwixtFormTests extends BaseTest
 		
 		assertEquals("244-5566", twixt.a.get());
 		assertEquals("def", twixt.b.get());
+		
+		Ford ford = new Ford();
+		twixt.copyTo(ford);
+		assertEquals("244-5566", twixt.a.get());
+		assertEquals("def", twixt.b.get());
+		
+		CarTwixt twixt2 = new CarTwixt();
+		twixt2.copyFrom(ford);
+		assertEquals("244-5566", twixt2.a.get());
+		assertEquals("def", twixt2.b.get());
+		
 	}
 
 	
