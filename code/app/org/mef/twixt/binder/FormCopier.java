@@ -106,6 +106,12 @@ public class FormCopier implements ReflectionUtils.FieldCallback
 			{
 				field.setAccessible(true);
 				Object valueObj = field.get(form);
+				
+				if (valueObj == null)
+				{
+					Logger.info(String.format("field %s is null -- did you forget to initialize it?", field.getName()));
+					return;
+				}
 
 				String fnName = "getUnderlyingValue";
 				Method meth = ReflectionUtils.findMethod(valueObj.getClass(), fnName);
