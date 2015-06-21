@@ -105,22 +105,16 @@ public class FormCopier implements ReflectionUtils.FieldCallback
 			try 
 			{
 				field.setAccessible(true);
-				Object valueObj = field.get(form);
-
+				//copy from honda.L<str> to twixt.L<strvalue>
 				String fnName = "get" + uppify(field.getName());
 				Method meth = ReflectionUtils.findMethod(modelToCopyFrom.getClass(), fnName);
 				if (meth != null)
 				{
 					Object src = meth.invoke(modelToCopyFrom);
-					//src is list of string
-					List<String> srcL = (List<String>) src;
-					List<StringValue> aaL = new ArrayList<>();
-					for(String tmp : srcL)
-					{
-						aaL.add(new StringValue(tmp));
-					}
+					List srcL = (List) src;
+					List valueL = form.convertModelListToValueList(field.getName(), srcL);
 					
-					field.set(form, aaL); //assign to form.emails
+					field.set(form, valueL); //assign to form.emails
 				}
 			} 
 			catch (Exception e) 
@@ -185,7 +179,6 @@ public class FormCopier implements ReflectionUtils.FieldCallback
 		}
 		else if (List.class.isAssignableFrom(clazz))
 		{
-			System.out.println("sdfsd");
 			field.setAccessible(true);
 
 			try {
@@ -197,20 +190,15 @@ public class FormCopier implements ReflectionUtils.FieldCallback
 					return;
 				}
 
-				//!!fix this. need way to discover list element types!
-				List<String> zzL = new ArrayList<>();
-				List<StringValue> aaL = (List<StringValue>) listObj;
-				for(StringValue strval: aaL)
-				{
-					zzL.add(strval.toString());
-				}
+				List valueL = (List) listObj;
+				List modelL = form.convertValueListToModelList(field.getName(), valueL);
 
 				String fnName = "set" + uppify(field.getName());
-				Method meth = findMatchingMethod(field, zzL);
+				Method meth = findMatchingMethod(field, modelL);
 				if (meth != null)
 				{
-					Logger.info("do: " + fnName + "=" + zzL);
-					meth.invoke(modelToCopyTo, zzL);
+					Logger.info("do: " + fnName + "=" + modelL);
+					meth.invoke(modelToCopyTo, modelL);
 				}
 			}				
 			catch (Exception e) 

@@ -1,6 +1,7 @@
 package org.mef.twixt.binder;
 
 import java.lang.reflect.Field;
+import java.util.List;
 
 import org.mef.twixt.*;
 import org.mef.twixt.validate.ValContext;
@@ -134,4 +135,16 @@ public abstract class TwixtForm implements ValueContainer
     	frm = frm.fill((T) this);
 		return frm;
 	}	
+	
+	//Methods that copy fields that are Lists.
+	//Derived classes MUST override these if they have fields that are lists.
+	public List convertModelListToValueList(String fieldName, List modelL)
+	{
+		return null;
+	}
+	public List convertValueListToModelList(String fieldName, List valueL)
+	{
+		return null;
+	}
+	
 }

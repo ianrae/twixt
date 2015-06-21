@@ -66,6 +66,46 @@ public class TwixtFormListTests extends BaseTest
 			}
 			
 		}
+
+		@Override
+		public List convertModelListToValueList(String fieldName, List modelL) 
+		{
+			if (fieldName.equals("emails"))
+			{
+				List<String> srcL = (List<String>) modelL;
+				List<StringValue> valueL = new ArrayList<>();
+				for(String tmp : srcL)
+				{
+					valueL.add(new StringValue(tmp));
+				}	
+				
+				return valueL;
+			}
+			else
+			{
+				return null;
+			}
+		}
+
+		@Override
+		public List convertValueListToModelList(String fieldName, List valueL) 
+		{
+			if (fieldName.equals("emails"))
+			{
+				List<String> modelL = new ArrayList<>();
+				List<StringValue> aaL = (List<StringValue>) valueL;
+				for(StringValue strval: aaL)
+				{
+					modelL.add(strval.toString());
+				}
+				
+				return modelL;
+			}
+			else
+			{
+				return null;
+			}
+		}
 	}
 
 	@Test
