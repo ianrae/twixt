@@ -73,13 +73,7 @@ public class TwixtFormListTests extends BaseTest
 			if (fieldName.equals("emails"))
 			{
 				List<String> srcL = (List<String>) modelL;
-				List<StringValue> valueL = new ArrayList<>();
-				for(String tmp : srcL)
-				{
-					valueL.add(new StringValue(tmp));
-				}	
-				
-				return valueL;
+				return this.copyStringList(srcL);
 			}
 			else
 			{
@@ -92,14 +86,7 @@ public class TwixtFormListTests extends BaseTest
 		{
 			if (fieldName.equals("emails"))
 			{
-				List<String> modelL = new ArrayList<>();
-				List<StringValue> aaL = (List<StringValue>) valueL;
-				for(StringValue strval: aaL)
-				{
-					modelL.add(strval.toString());
-				}
-				
-				return modelL;
+				return this.copyStringValueList((List<StringValue>)valueL);
 			}
 			else
 			{
