@@ -1,6 +1,7 @@
 package org.mef.twixt.binder;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Date;
@@ -19,7 +20,7 @@ public class FormCopier implements ReflectionUtils.FieldCallback
 		void copyFieldFromModel(FormCopier copier, Field field);
 		void copyFieldToModel(FormCopier copier, Field field);
 	}
-	
+
 	TwixtForm form;
 	private Object modelToCopyFrom;
 	private Object modelToCopyTo;
@@ -30,7 +31,7 @@ public class FormCopier implements ReflectionUtils.FieldCallback
 	{
 		this.fieldCopier = fieldCopier;
 	}
-	
+
 	public void copyToModel(TwixtForm twixtForm, Object model, String[] fieldsToNotCopy)
 	{
 		form = twixtForm;
@@ -60,7 +61,7 @@ public class FormCopier implements ReflectionUtils.FieldCallback
 				}
 			}
 		}
-		
+
 		if (modelToCopyFrom != null)
 		{
 			fieldCopier.copyFieldFromModel(this, field);
@@ -80,7 +81,7 @@ public class FormCopier implements ReflectionUtils.FieldCallback
 			{
 				field.setAccessible(true);
 				Object valueObj = field.get(form);
-				
+
 				String fnName = "get" + uppify(field.getName());
 				Method meth = ReflectionUtils.findMethod(modelToCopyFrom.getClass(), fnName);
 				if (meth != null)
@@ -99,7 +100,7 @@ public class FormCopier implements ReflectionUtils.FieldCallback
 			}
 		}
 	}
-	
+
 	//messy. convert list of String to list of Value
 	private Object adjustSrcFrom(Object src) 
 	{
@@ -115,7 +116,7 @@ public class FormCopier implements ReflectionUtils.FieldCallback
 		}
 		return src;
 	}
-	
+
 
 	public void copyFieldToModel(Field field)
 	{
@@ -126,7 +127,7 @@ public class FormCopier implements ReflectionUtils.FieldCallback
 			{
 				field.setAccessible(true);
 				Object valueObj = field.get(form);
-				
+
 				if (valueObj == null)
 				{
 					Logger.info(String.format("field %s is null -- did you forget to initialize it?", field.getName()));
@@ -153,8 +154,44 @@ public class FormCopier implements ReflectionUtils.FieldCallback
 				e.printStackTrace();
 			}
 		}
+		else if (List.class.isAssignableFrom(clazz))
+		{
+			System.out.println("sdfsd");
+			field.setAccessible(true);
+
+			try {
+				Object listObj;
+				listObj = field.get(form);
+				if (listObj == null)
+				{
+					Logger.info(String.format("field %s is null -- did you forget to initialize it?", field.getName()));
+					return;
+				}
+
+				//
+				List<String> zzL = new ArrayList<>();
+				List<StringValue> aaL = (List<StringValue>) listObj;
+				for(StringValue strval: aaL)
+				{
+					zzL.add(strval.toString());
+				}
+
+				String fnName = "set" + uppify(field.getName());
+				Method meth = findMatchingMethod(field, zzL);
+				if (meth != null)
+				{
+					Logger.info("do: " + fnName + "=" + zzL);
+					meth.invoke(modelToCopyTo, zzL);
+				}
+			}				
+			catch (Exception e) 
+			{
+				e.printStackTrace();
+			}
+
+		}
 	}
-	
+
 	//messy. convert list of Value to list of String
 	private Object adjustSrcTo(Object src) 
 	{
@@ -182,7 +219,7 @@ public class FormCopier implements ReflectionUtils.FieldCallback
 		{
 			return meth;
 		}
-		
+
 		if (src.getClass().equals(Integer.class))
 		{
 			meth = ReflectionUtils.findMethod(modelToCopyTo.getClass(), fnName, int.class);
@@ -198,11 +235,11 @@ public class FormCopier implements ReflectionUtils.FieldCallback
 			{
 				return meth;
 			}
-//			meth = ReflectionUtils.findMethod(modelToCopyTo.getClass(), fnName, Boolean.class);
-//			if (meth != null)
-//			{
-//				return meth;
-//			}
+			//			meth = ReflectionUtils.findMethod(modelToCopyTo.getClass(), fnName, Boolean.class);
+			//			if (meth != null)
+			//			{
+			//				return meth;
+			//			}
 		}
 		else if (src.getClass().equals(Long.class))
 		{
@@ -244,7 +281,7 @@ public class FormCopier implements ReflectionUtils.FieldCallback
 				return meth;
 			}
 		}
-		
+
 		return null;
 	}
 

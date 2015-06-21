@@ -1,6 +1,5 @@
 import static org.junit.Assert.*;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -18,9 +17,9 @@ import basetest.BaseTest;
 
 
 
-public class TwixtFormListTests extends BaseTest
+public class OldTwixtFormListTests extends BaseTest
 {
-	public static class Honda
+	public static class Chevy
 	{
 		private String a;
 		private List<String> emails;
@@ -39,15 +38,15 @@ public class TwixtFormListTests extends BaseTest
 		
 	}
 	
-	public static class HondaTwixt extends TwixtForm
+	public static class XCarTwixt extends TwixtForm
 	{
 		public StringValue a;
-		public List<StringValue> emails;
+		public ListValue emails;
 		
-		public HondaTwixt()
+		public XCarTwixt()
 		{
 			a = new StringValue();
-			emails = new ArrayList<>();
+			emails = new ListValue();
 			a.setValidator(new MyValidator());
 		}
 		
@@ -71,10 +70,10 @@ public class TwixtFormListTests extends BaseTest
 	@Test
 	public void test() 
 	{
-		HondaTwixt twixt = new HondaTwixt();
+		XCarTwixt twixt = new XCarTwixt();
 		assertEquals("", twixt.a.get());
 		
-		MockTwixtBinder<HondaTwixt> binder = new MockTwixtBinder<HondaTwixt>(HondaTwixt.class, buildMap());
+		MockTwixtBinder<XCarTwixt> binder = new MockTwixtBinder<XCarTwixt>(XCarTwixt.class, buildMap());
 		
 		boolean b = binder.bind();
 		assertTrue(b);
@@ -82,39 +81,39 @@ public class TwixtFormListTests extends BaseTest
 		
 		assertEquals("244-5566", twixt.a.get());
 		assertEquals(2, twixt.emails.size());
-		assertEquals("ABC", twixt.emails.get(0).toString());
-		assertEquals("DEF", twixt.emails.get(1).toString());
+		assertEquals("ABC", twixt.emails.getIth(0).toString());
+		assertEquals("DEF", twixt.emails.getIth(1).toString());
 		
-		Honda honda = new Honda();
-		twixt.copyTo(honda);
-		assertEquals("244-5566", honda.getA());
-		assertEquals(2, honda.getEmails().size());
-		assertEquals("ABC", honda.getEmails().get(0));
-		assertEquals("DEF", honda.getEmails().get(1));
+		Chevy chevy = new Chevy();
+		twixt.copyTo(chevy);
+		assertEquals("244-5566", chevy.getA());
+		assertEquals(2, chevy.getEmails().size());
+		assertEquals("ABC", chevy.getEmails().get(0));
+		assertEquals("DEF", chevy.getEmails().get(1));
 		
-		HondaTwixt twixt2 = new HondaTwixt();
-		twixt2.copyFrom(honda);
+		XCarTwixt twixt2 = new XCarTwixt();
+		twixt2.copyFrom(chevy);
 		assertEquals("244-5566", twixt2.a.get());
 		assertEquals(2, twixt2.emails.size());
-		assertEquals("ABC", twixt2.emails.get(0).toString());
-		assertEquals("DEF", twixt2.emails.get(1).toString());
+		assertEquals("ABC", twixt2.emails.getIth(0).toString());
+		assertEquals("DEF", twixt2.emails.getIth(1).toString());
 		
 	}
 
-//	@Test
-//	public void testBadIndex() 
-//	{
-//		HondaTwixt twixt = new HondaTwixt();
-//		MockTwixtBinder<HondaTwixt> binder = new MockTwixtBinder<HondaTwixt>(HondaTwixt.class, buildBadMap());
-//		
-//		boolean b = binder.bind();
-//		assertFalse(b);
-//		twixt = binder.get();
-//		
-//		assertEquals("244-5566", twixt.a.get());
-//		assertEquals(1, twixt.emails.size());
-//		assertEquals("ABC", twixt.emails.getIth(0).toString());
-//	}
+	@Test
+	public void testBadIndex() 
+	{
+		XCarTwixt twixt = new XCarTwixt();
+		MockTwixtBinder<XCarTwixt> binder = new MockTwixtBinder<XCarTwixt>(XCarTwixt.class, buildBadMap());
+		
+		boolean b = binder.bind();
+		assertFalse(b);
+		twixt = binder.get();
+		
+		assertEquals("244-5566", twixt.a.get());
+		assertEquals(1, twixt.emails.size());
+		assertEquals("ABC", twixt.emails.getIth(0).toString());
+	}
 	
 	private Map<String,String> buildMap()
 	{

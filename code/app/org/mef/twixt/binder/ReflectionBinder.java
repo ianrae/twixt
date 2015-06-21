@@ -75,6 +75,10 @@ public class ReflectionBinder
 		{
 			if (ListValue.class.isAssignableFrom(fld.getType()))
 			{
+				ok = ok && oldBindListElement(fld, input, map);
+			}
+			else if (fld.getType().equals(List.class))
+			{
 				ok = ok && bindListElement(fld, input, map);
 			}
 			else
@@ -99,7 +103,38 @@ public class ReflectionBinder
 		return ok;
 	}
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private boolean bindListElement(Field fld, ValueContainer input, Map<String,String> map) throws Exception
+	{
+		boolean ok = true;
+		String fieldName = fld.getName();
+		System.out.println("yyy " + fieldName);
+		
+		Map<String,String> itemMap = findListItems(map, fieldName);
+		Object xobj = fld.get(input);
+		List newL = (List)xobj;
+		
+		//key: email[0]
+		for(String key: itemMap.keySet())
+		{
+			String valueToBind = itemMap.get(key);
+			int index = extractIndex(key);
+			if (index == newL.size())
+			{
+				newL.add(new StringValue(valueToBind)); //!for now we only support lists of strings
+								//later add ability for ListValue to know what its element's underlying type is
+			}
+			else
+			{
+				System.out.println(String.format("[Twixt] Error: index %d unexpected: %s", index, key));
+				ok = false;
+			}
+		}
+		
+		return ok;
+	}
+	
+	private boolean oldBindListElement(Field fld, ValueContainer input, Map<String,String> map) throws Exception
 	{
 		boolean ok = true;
 		String fieldName = fld.getName();
