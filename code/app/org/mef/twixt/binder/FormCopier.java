@@ -72,6 +72,7 @@ public class FormCopier implements ReflectionUtils.FieldCallback
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	public void copyFieldFromModel(Field field)
 	{
 		Class<?> clazz = field.getType();
@@ -92,6 +93,34 @@ public class FormCopier implements ReflectionUtils.FieldCallback
 					meth = ReflectionUtils.findMethod(clazz, fnName, Object.class);
 
 					meth.invoke(valueObj, src);
+				}
+			} 
+			catch (Exception e) 
+			{
+				e.printStackTrace();
+			}
+		}
+		else if (List.class.isAssignableFrom(clazz))
+		{
+			try 
+			{
+				field.setAccessible(true);
+				Object valueObj = field.get(form);
+
+				String fnName = "get" + uppify(field.getName());
+				Method meth = ReflectionUtils.findMethod(modelToCopyFrom.getClass(), fnName);
+				if (meth != null)
+				{
+					Object src = meth.invoke(modelToCopyFrom);
+					//src is list of string
+					List<String> srcL = (List<String>) src;
+					List<StringValue> aaL = new ArrayList<>();
+					for(String tmp : srcL)
+					{
+						aaL.add(new StringValue(tmp));
+					}
+					
+					field.set(form, aaL); //assign to form.emails
 				}
 			} 
 			catch (Exception e) 
@@ -168,7 +197,7 @@ public class FormCopier implements ReflectionUtils.FieldCallback
 					return;
 				}
 
-				//
+				//!!fix this. need way to discover list element types!
 				List<String> zzL = new ArrayList<>();
 				List<StringValue> aaL = (List<StringValue>) listObj;
 				for(StringValue strval: aaL)
