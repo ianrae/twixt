@@ -8,4 +8,5 @@ public interface ValueContainer
 	void validate(ValContext vtx);
 	void copyTo(Object model);
 	void copyFrom(Object model);
+	Value createListElement(String fieldName, String value);
 }

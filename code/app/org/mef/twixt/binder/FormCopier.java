@@ -113,6 +113,10 @@ public class FormCopier implements ReflectionUtils.FieldCallback
 					Object src = meth.invoke(modelToCopyFrom);
 					List srcL = (List) src;
 					List valueL = form.convertModelListToValueList(field.getName(), srcL);
+					if (valueL == null)
+					{
+						System.out.println(String.format("[Twixt] Error: convertModelListToValueList returned null. Did you forget to implement it for '%s'?", field.getName()));
+					}
 					
 					field.set(form, valueL); //assign to form.emails
 				}
@@ -192,6 +196,10 @@ public class FormCopier implements ReflectionUtils.FieldCallback
 
 				List valueL = (List) listObj;
 				List modelL = form.convertValueListToModelList(field.getName(), valueL);
+				if (modelL == null)
+				{
+					System.out.println(String.format("[Twixt] Error: convertValueListToModelList returned null. Did you forget to implement it for '%s'?", field.getName()));
+				}
 
 				String fnName = "set" + uppify(field.getName());
 				Method meth = findMatchingMethod(field, modelL);

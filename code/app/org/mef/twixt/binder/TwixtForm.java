@@ -147,4 +147,12 @@ public abstract class TwixtForm implements ValueContainer
 		return null;
 	}
 	
+	//and provide default do-nothing implementation for this.
+	//Derived classes MUST override these if they have fields that are lists.
+	@Override
+	public Value createListElement(String fieldName, String value)
+	{
+		return null;
+	}
+	
 }

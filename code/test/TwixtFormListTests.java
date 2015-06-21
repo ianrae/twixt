@@ -106,6 +106,19 @@ public class TwixtFormListTests extends BaseTest
 				return null;
 			}
 		}
+
+		@Override
+		public Value createListElement(String fieldName, String value) 
+		{
+			if (fieldName.equals("emails"))
+			{
+				return new StringValue(value);
+			}
+			else
+			{
+				return null;
+			}
+		}
 	}
 
 	@Test
@@ -141,20 +154,20 @@ public class TwixtFormListTests extends BaseTest
 		
 	}
 
-//	@Test
-//	public void testBadIndex() 
-//	{
-//		HondaTwixt twixt = new HondaTwixt();
-//		MockTwixtBinder<HondaTwixt> binder = new MockTwixtBinder<HondaTwixt>(HondaTwixt.class, buildBadMap());
-//		
-//		boolean b = binder.bind();
-//		assertFalse(b);
-//		twixt = binder.get();
-//		
-//		assertEquals("244-5566", twixt.a.get());
-//		assertEquals(1, twixt.emails.size());
-//		assertEquals("ABC", twixt.emails.getIth(0).toString());
-//	}
+	@Test
+	public void testBadIndex() 
+	{
+		HondaTwixt twixt = new HondaTwixt();
+		MockTwixtBinder<HondaTwixt> binder = new MockTwixtBinder<HondaTwixt>(HondaTwixt.class, buildBadMap());
+		
+		boolean b = binder.bind();
+		assertFalse(b);
+		twixt = binder.get();
+		
+		assertEquals("244-5566", twixt.a.get());
+		assertEquals(1, twixt.emails.size());
+		assertEquals("ABC", twixt.emails.get(0).toString());
+	}
 	
 	private Map<String,String> buildMap()
 	{
