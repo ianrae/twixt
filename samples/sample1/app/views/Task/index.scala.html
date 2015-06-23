@@ -1,0 +1,27 @@
+@(entities: List[tw.entities.Task])
+
+@import helper._
+
+
+
+@main("Show") {
+
+    <h1>@entities.size() Task(s). </h1>
+
+<div class="col-md-6">	
+<table class="table table-striped">
+	<tr>
+	    <th width="20%" >Name</th>
+	    <th>Value</th> 
+	</tr>
+	   @for(p <- entities) {
+		<tr>
+	    <td width="20%">@p.getS()</td>
+	    
+	    </tr>
+	   }
+	</table>	
+	
+</div>
+<br/>
+}

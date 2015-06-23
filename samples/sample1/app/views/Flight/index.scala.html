@@ -1,0 +1,35 @@
+@(entities: List[tw.entities.Flight])
+
+@import helper._
+
+
+
+@main("Show") {
+
+    <h1>@entities.size() Flights(s). </h1>
+
+<div class="col-md-6">	
+<table class="table table-striped">
+	<tr>
+	    <th width="20%" >Name</th>
+	    <th>Value</th> 
+	</tr>
+	   @for(p <- entities) {
+		<tr>
+	    <td width="10%">@p.getId()</td>
+	    <td width="20%">@p.getS()</td>
+	    <td width="10%">@p.getSize()</td>
+	    <td >@p.getLang()</td>
+	    <td >@p.getIsAdmin()</td>
+	    <td >@p.getStartDate()</td>
+	    <td >@p.getAccountTypeId()</td>
+	    <td >@p.getEmails().size() els</td>
+	    <td><a href="@routes.FlightController.edit(p.getId())">Edit</a></td>
+	    <td><a href="@routes.FlightController.tedit(p.getId())">TEdit</a></td>
+	    </tr>
+	   }
+	</table>	
+	<a class="btn success" id="add" href="@routes.FlightController.newEntity()">Add a new computer</a>
+</div>
+<br/>
+}

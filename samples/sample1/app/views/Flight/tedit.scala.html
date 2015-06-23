@@ -1,0 +1,76 @@
+@(id:Long, frm: Form[twixt.FlightTwixt], ttt:twixt.FlightTwixt)
+
+@import helper._
+
+
+
+@main("Edit flight") {
+    
+    
+    <h2>Edit flight</h2>
+    
+    <h3>A</h3>
+@if(frm.hasGlobalErrors) {
+    <p class="error">
+        @frm.globalError.message
+    </p>
+}    
+    
+    <h3>B</h3>
+@for(error <- frm("s").errors) {
+    <p>@error.message</p>
+}        
+    
+    @form(routes.FlightController.tupdate(id)) {
+        
+        <fieldset>
+        @helper.textarea(frm("s"));
+		</fieldset>        
+        <fieldset>
+        @* how to pass current value of size as value? *@
+		@helper.input(frm("size")) { (id, name, value, args) =>
+    		<input type="number" name="@name" id="@id" @toHtmlArgs(args)>
+		}        
+		</fieldset>        
+		
+@*******
+        options = options(frm.get().lang.options()))
+        doesn't work because .get() will try to do binding! and fail if
+        we are returning with val errors
+comment
+***@
+
+		@helper.select(
+        frm("lang"),
+        options = options(ttt.lang.options()))
+        
+		
+@***		@helper.inputCheckboxGroup(
+		        frm("isAdmin"),
+		        options = options(ttt.boolopt))
+**@
+
+		@helper.checkbox(frm("isAdmin"))	
+					
+		@helper.inputDate(frm("startDate"))	
+		
+@*		@helper.select(
+        frm("accountTypeId"),
+        options = options(ttt.accountTypeId.optionsStrMap()))		
+*@
+		
+		@helper.inputRadioGroup(frm("accountTypeId"),
+			options = options(ttt.accountTypeId.optionsStrMap()))		
+			
+				
+		@helper.repeat(frm("emails"), min = 1) { emailField =>
+		    @helper.inputText(emailField)
+		}
+					
+        <input type="submit" value="Update">
+        
+    }
+    
+
+
+}
