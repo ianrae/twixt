@@ -11,8 +11,7 @@ libraryDependencies ++= Seq(
   javaJdbc,
   cache,
   javaWs,
-  "twixt" % "twixt_2.11" % "0.2.0",
-  "thingworld" % "thingworld_2.11" % "0.1.0-SNAPSHOT"  
+  "twixt" % "twixt_2.11" % "0.2.0"
 )
 
 // Play provides two styles of routers, one expects its actions to be injected, the

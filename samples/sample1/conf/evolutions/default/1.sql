@@ -3,23 +3,19 @@
 
 # --- !Ups
 
-create table user_model (
+create table flight (
   id                        bigint not null,
-  name                      varchar(255),
-  first_name                varchar(255),
-  last_name                 varchar(255),
-  subj_id                   bigint,
-  pwd                       varchar(255),
-  email                     varchar(255),
-  confirmed                 boolean,
-  triflag                   integer,
-  user_type                 integer,
-  srt_hint                  varchar(255),
-  last_mod                  timestamp not null,
-  constraint pk_user_model primary key (id))
+  s                         varchar(255),
+  user_id                   bigint,
+  size                      integer,
+  lang                      varchar(255),
+  is_admin                  boolean,
+  start_date                timestamp,
+  account_type_id           bigint,
+  constraint pk_flight primary key (id))
 ;
 
-create sequence user_model_seq;
+create sequence flight_seq;
 
 
 
@@ -28,9 +24,9 @@ create sequence user_model_seq;
 
 SET REFERENTIAL_INTEGRITY FALSE;
 
-drop table if exists user_model;
+drop table if exists flight;
 
 SET REFERENTIAL_INTEGRITY TRUE;
 
-drop sequence if exists user_model_seq;
+drop sequence if exists flight_seq;
 

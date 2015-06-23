@@ -1,12 +1,40 @@
-package tw.entities;
+package models;
 
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
-import org.thingworld.entity.BaseEntity;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Version;
 
-public class Flight extends BaseEntity
+import play.data.validation.Constraints.Required;
+
+
+//import play.db.ebean.Model;
+import com.avaje.ebean.Model;
+
+@Entity
+public class Flight extends Model
 {
+	public static Finder<Long,Flight> find = new Finder(Long.class, Flight.class);  
+
+	public static List<Flight> all() {
+		return find.all();
+	}
+	public static void delete(Long id) {
+		find.ref(id).delete();
+	}
+
+	@Id 
+	private Long id;
+	public Long getId() {
+		return this.id;
+	}
+	public void setId(Long val) {
+		this.id = val;
+	}
+	
 	private String s;
 	private Long userId;
 	private int size;
@@ -20,56 +48,48 @@ public class Flight extends BaseEntity
 		return s;
 	}
 	public void setS(String s) {
-		setlist.add("s");
 		this.s = s;
 	}
 	public Long getUserId() {
 		return userId;
 	}
 	public void setUserId(Long userId) {
-		setlist.add("userId");
 		this.userId = userId;
 	}
 	public int getSize() {
 		return size;
 	}
 	public void setSize(int size) {
-		setlist.add("size");
 		this.size = size;
 	}
 	public String getLang() {
 		return lang;
 	}
 	public void setLang(String lang) {
-		setlist.add("lang");
 		this.lang = lang;
 	}
 	public boolean getIsAdmin() {
 		return isAdmin;
 	}
 	public void setIsAdmin(boolean isAdmin) {
-		setlist.add("isAdmin");
 		this.isAdmin = isAdmin;
 	}
 	public Date getStartDate() {
 		return startDate;
 	}
 	public void setStartDate(Date startDate) {
-		setlist.add("startDate");
 		this.startDate = startDate;
 	}
 	public Long getAccountTypeId() {
 		return accountTypeId;
 	}
 	public void setAccountTypeId(Long accountTypeId) {
-		setlist.add("accountTypeId");
 		this.accountTypeId = accountTypeId;
 	}
 	public List<String> getEmails() {
 		return emails;
 	}
 	public void setEmails(List<String> emails) {
-		setlist.add("emails");
 		this.emails = emails;
 	}
 }

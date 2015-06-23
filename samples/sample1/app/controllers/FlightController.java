@@ -7,8 +7,8 @@ import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;
 import tw.dao.FakeDAO;
-import tw.entities.Flight;
 import twixt.FlightTwixt;
+import models.Flight;
 
 public class FlightController extends Controller 
 {

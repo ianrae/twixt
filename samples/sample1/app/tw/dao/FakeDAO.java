@@ -4,7 +4,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import tw.entities.Flight;
+import models.Flight;
+
 
 public class FakeDAO {
 
