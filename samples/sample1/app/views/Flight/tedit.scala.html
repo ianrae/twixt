@@ -10,16 +10,16 @@
     <h2>Edit flight</h2>
     
     <h3>A</h3>
-@if(frm.hasGlobalErrors) {
-    <p class="error">
-        @frm.globalError.message
-    </p>
-}    
+	@if(frm.hasGlobalErrors) {
+	    <p class="error">
+	        @frm.globalError.message
+	    </p>
+	}    
     
     <h3>B</h3>
-@for(error <- frm("s").errors) {
-    <p>@error.message</p>
-}        
+	@for(error <- frm("s").errors) {
+	    <p>@error.message</p>
+	}        
     
     @form(routes.FlightController.tupdate(id)) {
         
@@ -33,31 +33,14 @@
 		}        
 		</fieldset>        
 		
-@*******
-        options = options(frm.get().lang.options()))
-        doesn't work because .get() will try to do binding! and fail if
-        we are returning with val errors
-comment
-***@
-
 		@helper.select(
         frm("lang"),
         options = options(ttt.lang.options()))
         
 		
-@***		@helper.inputCheckboxGroup(
-		        frm("isAdmin"),
-		        options = options(ttt.boolopt))
-**@
-
 		@helper.checkbox(frm("isAdmin"))	
 					
 		@helper.inputDate(frm("startDate"))	
-		
-@*		@helper.select(
-        frm("accountTypeId"),
-        options = options(ttt.accountTypeId.optionsStrMap()))		
-*@
 		
 		@helper.inputRadioGroup(frm("accountTypeId"),
 			options = options(ttt.accountTypeId.optionsStrMap()))		
