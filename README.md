@@ -54,6 +54,8 @@ When the form is submitted, use a **TwixtBinder** to bind the data in the web re
 This is useful when the model has been retrieved from the database.  *copyToModel* merges in the data from the form,
 and the model can now be saved back to the database.
 
+TwixtBinder uses Play's DynamicForm.
+
 ###Lists
 If your model has fields that are lists, you need to define several functions in your twixt.  Let's say your model class contains
 a list of email addresses
