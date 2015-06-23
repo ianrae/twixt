@@ -4,23 +4,11 @@
 
 # Home page
 GET     /                           controllers.Application.index()
-GET     /show                       controllers.Application.show()
-
-# Task
-GET     /task                       controllers.TaskController.index()
-GET	    /taskshow                   controllers.TaskController.show()
-GET	    /taskcreate                 controllers.TaskController.create()
 
 # Flight
 GET     /flights                       controllers.FlightController.index()
-GET 	/flights/new                	controllers.FlightController.newEntity()
-POST 	/flight/new              	controllers.FlightController.create()
-GET	 	/flight/:id/edit				controllers.FlightController.edit(id: Long)
-POST 	/flight/:id/edit              controllers.FlightController.update(id: Long)
-#twixt
 GET	 	/flight/:id/tedit				controllers.FlightController.tedit(id: Long)
 POST 	/flight/:id/tedit              controllers.FlightController.tupdate(id: Long)
-
 
 
 # Map static resources from the /public folder to the /assets URL path

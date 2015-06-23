@@ -5,32 +5,16 @@ import java.util.Date;
 import java.util.List;
 
 import org.mef.twixt.binder.TwixtBinder;
-import org.thingworld.MContext;
-import org.thingworld.Reply;
-
-import models.UserModel;
-
-import com.google.inject.Inject;
 
 import play.Logger;
 import play.data.Form;
 import play.mvc.*;
-import services.MyPerm;
-import services.MyService;
-import tw.domain.task.TaskPresenter;
 import tw.entities.Flight;
-import tw.util.TBinder;
 import twixt.FlightTwixt;
-//import services.TestService;
 import views.html.*;
 
 public class FlightController extends Controller {
 
-	//myservice is a singleton so all controllers share same instance
-	//created at startup
-    @Inject
-    private MyService svc;
-    
     private static List<Flight> data = new ArrayList<>();
     
     static int count;
@@ -44,27 +28,27 @@ public class FlightController extends Controller {
         return ok(views.html.Flight.index.render(data));
     }
     
-    public Result newEntity() {
-    	Form<Flight> frm = Form.form(Flight.class);    	
-        return ok(views.html.Flight.newflight.render(frm));
-    }
-    
-    public Result create() {
-    	Flight flight = Form.form(Flight.class).bindFromRequest().get();    	
-    	Logger.info("--> " + flight.getS());
-    	Long id = data.size() + 200L;
-    	flight.setId(id);
-    	data.add(flight);
-        return redirect(controllers.routes.FlightController.index());
-    }
-    
-    public Result edit(Long id) {
-    	Flight flight = findFlightById(id);
-    	Logger.info("ed: " + flight.getS());
-    	Form<Flight> frm = Form.form(Flight.class);
-    	frm.fill(flight);
-        return ok(views.html.Flight.edit.render(flight.getId(), frm));
-    }
+//    public Result newEntity() {
+//    	Form<Flight> frm = Form.form(Flight.class);    	
+//        return ok(views.html.Flight.newflight.render(frm));
+//    }
+//    
+//    public Result create() {
+//    	Flight flight = Form.form(Flight.class).bindFromRequest().get();    	
+//    	Logger.info("--> " + flight.getS());
+//    	Long id = data.size() + 200L;
+//    	flight.setId(id);
+//    	data.add(flight);
+//        return redirect(controllers.routes.FlightController.index());
+//    }
+//    
+//    public Result edit(Long id) {
+//    	Flight flight = findFlightById(id);
+//    	Logger.info("ed: " + flight.getS());
+//    	Form<Flight> frm = Form.form(Flight.class);
+//    	frm.fill(flight);
+//        return ok(views.html.Flight.edit.render(flight.getId(), frm));
+//    }
     
     private Flight findFlightById(long id) 
     {
@@ -78,15 +62,13 @@ public class FlightController extends Controller {
 		return null;
 	}
 
-	public Result update(Long id) {
-    	Flight flight = Form.form(Flight.class).bindFromRequest().get();    	
-    	Logger.info("--> " + flight.getS());
-    	insertData(id, flight);
-        return redirect(controllers.routes.FlightController.index());
-    }
-
-    
-    
+//	public Result update(Long id) {
+//    	Flight flight = Form.form(Flight.class).bindFromRequest().get();    	
+//    	Logger.info("--> " + flight.getS());
+//    	insertData(id, flight);
+//        return redirect(controllers.routes.FlightController.index());
+//    }
+//
 	private void insertData(Long id, Flight target) 
 	{
 		int index = 0;

@@ -2,8 +2,6 @@
 
 @import helper._
 
-
-
 @main("Show") {
 
     <h1>@entities.size() Flights(s). </h1>
@@ -24,12 +22,10 @@
 	    <td >@p.getStartDate()</td>
 	    <td >@p.getAccountTypeId()</td>
 	    <td >@p.getEmails().size() els</td>
-	    <td><a href="@routes.FlightController.edit(p.getId())">Edit</a></td>
 	    <td><a href="@routes.FlightController.tedit(p.getId())">TEdit</a></td>
 	    </tr>
 	   }
 	</table>	
-	<a class="btn success" id="add" href="@routes.FlightController.newEntity()">Add a new computer</a>
 </div>
 <br/>
 }
