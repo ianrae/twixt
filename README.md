@@ -1,14 +1,15 @@
 Twixt is an alternative binding framework for Java Play 2.4 apps.
 
-Play Framework documentation recommends that forms should be made from model objects.  By doing this, the validation 
-annotations in the model are used during binding.  This works well in simple CRUD scenarios, but has limitations in larger applications:
+The Play Framework documentation recommends that forms should be made from model objects.  This way, the model's validation 
+annotations are used during binding.  While this works well for simple CRUD scenarios, it has limitations in larger applications:
 
    * the form may only need a subset of model fields.  Binding may fail due to missing @Required fields.
    * the same field may be used on multiple forms with different validation requirements.
    * a form may contain fields from multiple models.
 
-A *twixt* is an object that sits between the model and the view.  
-The fields in a twixt object have their own validation and formatting, separate  from the model. 
+Twixt provides an intermediate object, called a *twixt*, that sits between the model and the view.  
+Its fields have their own validation and formatting.  Twixt objects can copy their data to and from model
+objects automatically.
 
 ### TwixtForm
 
@@ -21,11 +22,11 @@ A twixt class derives from TwixtForm and consists of public "value" objects
 	  }
   
   
-Field names should match the corresponding model fields (although there are ways around this).
+Field names should match the corresponding model fields (although there are ways around this - <a href="#see user-content-custom-data-copying">Custom Data Copying</a>).
 	
 ###Rendering a Form view
  
-Let's looks at a controller's typical edit action:
+Let's look at a controller's typical edit action:
 
       User user = User.find().getById(id); //get model
       UserTwixt twixt = new UserTwixt();   //create twixt
@@ -36,7 +37,7 @@ Let's looks at a controller's typical edit action:
 *copyFromModel* copies fields from the model (using its getters and setters). 
 
 ###Form Binding
-On post-back, use a **TwixtBinder** to bind the data in the web request to your **TwixtForm**. 
+When the form is submitted, use a **TwixtBinder** to bind the data in the web request to your **TwixtForm**. 
 
       TwixtBinder<UserTwixt> binder = new TwixtBinder();
       if (! binder.bind()) {
@@ -157,7 +158,21 @@ Here is a phone number class:
 Validation is code-based, not annotation-based.	  
 
 ##Converters
-TBD converts data to/from string
+Value objects render themselves to a form using the *render* method:
+
+	protected abstract String render();
+
+When the form is submitted, the binder invokes each value object's *parse* method:
+
+	protected abstract void parse(String input) throws Exception;
+
+Alternatively, you can attach a Convert object to a value object to handle rendering and parsing:
+
+	public interface Converter 
+	{
+		String print(Object obj);
+		Object parse(String s);
+	}
 
 ## Views
 Value objects render using their toString() method. 
