@@ -22,7 +22,7 @@ A twixt class derives from TwixtForm and consists of public "value" objects
 	  }
   
   
-Field names should match the corresponding model fields (although there are ways around this - <a href="#see user-content-custom-data-copying">Custom Data Copying</a>).
+Field names should match the corresponding model fields (although there are ways around this - <a href="#user-content-custom-data-copying">Custom Data Copying</a>).
 	
 ###Rendering a Form view
  
