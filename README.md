@@ -11,6 +11,17 @@ Twixt provides an intermediate object, called a *twixt*, that sits between the m
 Its fields have their own validation and formatting.  Twixt objects can copy their data to and from model
 objects automatically.
 
+### Getting Twixt
+Add the following to the libraryDependencies in the build.sbt file in your project:
+
+	"twixt" % "twixt_2.11" % "0.2.0"
+
+and add a resolver:
+
+	resolvers += "release repository" at  "http://ianrae.github.io/releases/"
+
+See the sample project in samples/sample1.
+
 ### TwixtForm
 
 A twixt class derives from TwixtForm and consists of public "value" objects
